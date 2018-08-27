@@ -136,7 +136,7 @@
 char cal_name_info[WCD9XXX_MAX_CAL][MAX_CAL_NAME] = {
         [WCD9XXX_ANC_CAL] = "anc_cal",
         [WCD9XXX_MBHC_CAL] = "mbhc_cal",
-        [WCD9XXX_VBAT_CAL] = "vbat_cal",
+        [WCD9XXX_MAD_CAL] = "mad_cal",
 };
 
 #define AUDIO_PARAMETER_KEY_REC_PLAY_CONC "rec_play_conc_on"
@@ -1277,9 +1277,9 @@ static void send_codec_cal(acdb_loader_get_calibration_t acdb_loader_get_calibra
     for (type = WCD9XXX_ANC_CAL; type < WCD9XXX_MAX_CAL; type++) {
         struct wcdcal_ioctl_buffer codec_buffer;
         struct param_data calib;
-        int ret;
+	int ret;
 
-        if((plat_data->is_vbat_speaker) && (WCD9XXX_VBAT_CAL == type)) {
+        if(plat_data->is_vbat_speaker) {
            ret = send_vbat_adc_data_to_acdb(plat_data, cal_name_info[type]);
            if (ret < 0)
                ALOGE("%s error in sending vbat adc data to acdb", __func__);
